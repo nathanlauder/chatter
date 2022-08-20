@@ -6,7 +6,7 @@ const ButtonLink = styled.button`
   border-radius: 5px;
   padding: 0.5rem;
   font-weight: 700;
-
+  cursor: pointer;
   
   color: var(--white);
   background-color: transparent;
