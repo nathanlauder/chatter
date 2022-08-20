@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 
+import { postSignup } from '../../Api/Api';
+
 import Link from '../../components/Link';
 import ButtonLink from '../../components/ButtonLink';
 import {
@@ -12,6 +14,7 @@ import {
   LoginLinkContainer
 } from './SignupComponents';
 import colors from '../../util/colors';
+import redirect from '../../util/redirect';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -25,9 +28,7 @@ const Signup = () => {
     return emailRegexp.test(emailToValidate);
   };
 
-  const handleSignup = (e) => {
-    console.log(e);
-
+  const validateSignup = () => {
     const errorList = [];
     if (!(username.length >= 5 && username.length <= 30)) {
       errorList.push('Usernames must be between 5 and 30 characters long.');
@@ -42,8 +43,19 @@ const Signup = () => {
       errorList.push('Password confirmation must match password.');
     }
     setErrors(errorList);
+  };
 
+  const handleSignup = async () => {
+    validateSignup();
     // send Api request
+    if (errors.length === 0) {
+      const data = {
+        username,
+        email,
+        password
+      };
+      if (postSignup(data)) redirect('/');
+    }
   };
 
   return (
@@ -103,7 +115,7 @@ const Signup = () => {
           </ul>
         )}
 
-        <ButtonLink onClick={(e) => handleSignup(e)}>
+        <ButtonLink onClick={() => handleSignup()}>
           Sign Up
         </ButtonLink>
 
