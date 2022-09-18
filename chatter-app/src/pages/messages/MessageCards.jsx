@@ -7,12 +7,19 @@ import MessageCard from './MessageCard';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  height: calc(94vh - 50px);
   padding: 1.5rem;
+  overflow-y: scroll;
 `;
 
 const MessageCards = ({ messageList }) => (
   <Container>
-    {messageList.map((message) => <MessageCard message={message} />)}
+    {messageList.map((message) => (
+      <MessageCard
+        key={message._id}
+        message={message}
+      />
+    ))}
   </Container>
 );
 
