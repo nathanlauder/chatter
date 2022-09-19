@@ -22,8 +22,7 @@ const post = async (endpoint, payload) => {
     const { data } = await axios.post(endpoint, payload);
     return data;
   } catch (err) {
-    console.log(err.response.data.error);
-    return Status.FAILURE;
+    return err.response.status;
   }
 };
 
