@@ -81,14 +81,13 @@ const messageList = [
 
 const Messages = () => {
   const [isLoggedIn, setLoginStatus] = useState(false);
+  const [activeConversation, setActiveConversation] = useState('');
 
   useEffect(() => {
     const loginStatusOptions = {
       LOGGED_IN: true,
       NOT_LOGGED_IN: false
     };
-    console.log('wut');
-    console.log(`Username: ${ls.get('username')}`);
     if (ls.get('username') === null) {
       setLoginStatus(loginStatusOptions.NOT_LOGGED_IN);
       redirect('/login');
@@ -97,15 +96,19 @@ const Messages = () => {
     }
   }, []);
 
+  const handleConversationClick = (conversationId) => {
+    setActiveConversation(conversationId);
+  };
+
   return !isLoggedIn ? (
     <div>You aren't logged in</div>
   ) : (
     <Container>
       <InnerContainer>
         <MessageCards messageList={messageList} />
-        <MessageBar />
+        <MessageBar activeConversation={activeConversation} />
       </InnerContainer>
-      <Conversations />
+      <Conversations setActiveConversation={handleConversationClick} />
     </Container>
   );
 };
