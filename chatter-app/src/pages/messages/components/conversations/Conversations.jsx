@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getConversations } from '../../../../Api/Endpoints';
 import { get } from '../../../../Api/Api';
@@ -8,11 +9,12 @@ import Tooltip from '../../../../components/Tooltip';
 const Container = styled.div`
   width: 300px;
   min-width: 300px;
-`;
-
-const ConversationContainer = styled.div`
   border-left: 2px solid var(--grey);
   height: 100vh;
+`;
+
+const ConversationContainer = styled.button`
+  border: none;
 `;
 
 const Title = styled.h3`
@@ -23,6 +25,7 @@ const Title = styled.h3`
 `;
 
 const Conversations = styled.div`
+  margin-top: 1rem;
 `;
 
 const ConversationTitle = styled.div`
@@ -41,7 +44,7 @@ const ConversationTitle = styled.div`
   }
 `;
 
-const Conversation = () => {
+const Conversation = ({ setActiveConversation }) => {
   // eslint-disable-next-line no-unused-vars
   const [drawerOpen, setDrawer] = useState(true);
   const [conversations, setConversations] = useState([]);
@@ -59,22 +62,26 @@ const Conversation = () => {
 
   return (
     <Container>
-      <ConversationContainer>
-        <Title>My Conversations</Title>
+      <Title>My Conversations</Title>
 
-        <Conversations>
-          {conversations.map((conv) => (
+      <Conversations>
+        {conversations.map((conv) => (
+          <ConversationContainer onClick={() => setActiveConversation(conv._id)}>
             <ConversationTitle key={conv._id}>
               { conv.title }
               { titleWillOverflow(conv.title) && (
                 <Tooltip>{ conv.title }</Tooltip>
               )}
             </ConversationTitle>
-          ))}
-        </Conversations>
-      </ConversationContainer>
+          </ConversationContainer>
+        ))}
+      </Conversations>
     </Container>
   );
+};
+
+Conversation.propTypes = {
+  setActiveConversation: PropTypes.func.isRequired
 };
 
 export default Conversation;
