@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Tooltip = styled.div`
   visibility: hidden;
-  background-color: rgb(112, 112, 112);
+  background-color: var(--grey);
   color: #fff;
   text-align: center;
   padding: 5px;
