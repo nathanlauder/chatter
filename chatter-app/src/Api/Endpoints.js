@@ -8,5 +8,8 @@ module.exports = {
   findUser: `${base}/user/find`,
 
   // conversation endpoints
-  getConversations: `${base}/conversation/find?user=`
+  getConversations: `${base}/conversation/find?user=`,
+
+  // message endpoints
+  sendMessage: `${base}/message/send`
 };
