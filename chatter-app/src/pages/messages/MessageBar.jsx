@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { IoMdSend } from 'react-icons/io';
+import { post } from '../../Api/Api';
+import { ls } from '../../Api/storage';
+import { sendMessage as sendMessageEndpoint } from '../../Api/Endpoints';
 
 const Wrapper = styled.div`
   background-color: var(--black);
@@ -9,7 +13,6 @@ const Wrapper = styled.div`
   position: absolute;
   bottom: 0;
   padding: 1rem 0;
-  /* height: max-content; */
   height: 50px;
 `;
 
@@ -32,6 +35,8 @@ const SendButton = styled.button`
   background-color: var(--frost);
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   border: none;
   margin: 0 1rem;
@@ -45,12 +50,20 @@ const SendButton = styled.button`
   }
 `;
 
-const MessageBar = () => {
+const MessageBar = ({ activeConversation }) => {
   const [message, setMessage] = useState('');
 
-  const sendMessage = () => {
-    console.log(message);
-    setMessage('');
+  const handleSendMessage = async () => {
+    const payload = {
+      conversationId: activeConversation,
+      senderId: ls.get('id'),
+      text: message
+    };
+    if (message !== '') {
+      await post(sendMessageEndpoint, payload);
+      setMessage('');
+    }
+    // TODO: handle errors for sending messages
   };
 
   return (
@@ -61,14 +74,18 @@ const MessageBar = () => {
           if (e.key !== 'Enter') setMessage(e.target.value);
         }}
         onKeyPress={(e) => {
-          if (e.key === 'Enter') sendMessage();
+          if (e.key === 'Enter') handleSendMessage();
         }}
       />
-      <SendButton onClick={() => sendMessage(message)}>
+      <SendButton onClick={() => handleSendMessage()}>
         <IoMdSend />
       </SendButton>
     </Wrapper>
   );
+};
+
+MessageBar.propTypes = {
+  activeConversation: PropTypes.string.isRequired
 };
 
 export default MessageBar;
