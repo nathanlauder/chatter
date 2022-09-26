@@ -12,7 +12,15 @@ const Container = styled.div`
   overflow-y: scroll;
 `;
 
-const MessageCards = ({ messageList }) => (
+const NoMessages = styled.div`
+  top: 50%;
+  left: calc(50% - 285px);
+  position: absolute;
+  font-size: 1.2rem;
+  background-color: transparent;
+`;
+
+const MessageCards = ({ messageList }) => (messageList.length > 0 ? (
   <Container>
     {messageList.map((message) => (
       <MessageCard
@@ -21,7 +29,11 @@ const MessageCards = ({ messageList }) => (
       />
     ))}
   </Container>
-);
+) : (
+  <NoMessages>
+    No messages to display...
+  </NoMessages>
+));
 
 MessageCards.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
