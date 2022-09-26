@@ -11,5 +11,6 @@ module.exports = {
   getConversations: `${base}/conversation/find?user=`,
 
   // message endpoints
-  sendMessage: `${base}/message/send`
+  sendMessage: `${base}/message/send`,
+  getMessages: `${base}/message/retrieve`
 };
