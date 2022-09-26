@@ -33,6 +33,25 @@ const sendMessage = async (req, res) => {
   }
 };
 
+const getMessages = async (req, res) => {
+  const { conversationId } = req.body;
+  if (!conversationId || !isValidId(conversationId)) {
+    return res.status(400).json({
+      error: 'Invalid conversation id provided'
+    });
+  }
+
+  try {
+    const messages = await Message.find({ conversation: conversationId });
+    return res.status(200).json(messages);
+  } catch (err) {
+    return res.status(500).json({
+      error: 'Internal server error'
+    });
+  }
+};
+
 module.exports = {
-  sendMessage
+  sendMessage,
+  getMessages
 };
