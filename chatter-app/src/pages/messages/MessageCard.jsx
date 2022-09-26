@@ -31,7 +31,7 @@ const MessageCard = ({ message }) => {
   return (
     <Card myMessage={isMyMessage}>
       <MessageText>{message.text}</MessageText>
-      <TimeStamp myMessage={isMyMessage}>{message.timeStamp.toLocaleString()}</TimeStamp>
+      <TimeStamp myMessage={isMyMessage}>{new Date(message.timeStamp).toLocaleString()}</TimeStamp>
     </Card>
   );
 };
