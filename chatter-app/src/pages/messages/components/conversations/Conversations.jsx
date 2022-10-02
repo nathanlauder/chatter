@@ -37,7 +37,10 @@ const ConversationTitle = styled.div`
   max-width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  
+  ${Tooltip} {
+    right: 0;
+  }
   &:hover ${Tooltip} {
     visibility: visible;
     right: 0;
