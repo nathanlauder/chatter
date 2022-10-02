@@ -5,7 +5,7 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100vw;
+  /* width: 100vw; */
 `;
 
 const LoginContainer = styled.div`
