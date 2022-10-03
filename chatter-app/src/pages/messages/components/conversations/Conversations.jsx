@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 300px;
   min-width: 300px;
   border-left: 2px solid var(--grey);
-  height: 100vh;
+  height: calc(99.5vh - 75px);
 `;
 
 const ConversationContainer = styled.button`
@@ -20,7 +20,7 @@ const ConversationContainer = styled.button`
 const Title = styled.h3`
   text-align: center;
   width: 100%;
-  border-bottom: 1px solid var(--white);
+  border-bottom: 2px solid var(--grey);
   padding: 1rem 0;
 `;
 
@@ -55,7 +55,6 @@ const Conversation = ({ setActiveConversation }) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await get(`${getConversations}${ls.get('id')}`);
-      console.log(data);
       setConversations(data);
     };
     fetchData();
@@ -69,8 +68,8 @@ const Conversation = ({ setActiveConversation }) => {
 
       <Conversations>
         {conversations.map((conv) => (
-          <ConversationContainer onClick={() => setActiveConversation(conv._id)}>
-            <ConversationTitle key={conv._id}>
+          <ConversationContainer key={conv._id} onClick={() => setActiveConversation(conv)}>
+            <ConversationTitle>
               { conv.title }
               { titleWillOverflow(conv.title) && (
                 <Tooltip>{ conv.title }</Tooltip>

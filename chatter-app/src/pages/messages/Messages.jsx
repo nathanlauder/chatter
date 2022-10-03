@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import redirect from '../../util/redirect';
+import Header from '../header/Header';
 import Conversations from './components/conversations/Conversations';
 import MessageCards from './MessageCards';
 import MessageBar from './MessageBar';
@@ -29,7 +30,8 @@ const UnselectedConversation = styled.div`
 
 const Messages = () => {
   const [isLoggedIn, setLoginStatus] = useState(false);
-  const [activeConversation, setActiveConversation] = useState('');
+  const [activeConversationId, setActiveConversationId] = useState('');
+  const [activeConversationTitle, setActiveConversationTitle] = useState('');
   const [messageList, setMessages] = useState([]);
 
   useEffect(() => {
@@ -47,34 +49,38 @@ const Messages = () => {
 
   useEffect(() => {
     const getMessages = async () => {
-      const payload = { conversationId: activeConversation };
+      const payload = { conversationId: activeConversationId };
       const data = await post(messageEndpoint, payload);
       setMessages(data);
     };
     getMessages();
-  }, [activeConversation]);
+  }, [activeConversationId]);
 
-  const handleConversationClick = (conversationId) => {
-    setActiveConversation(conversationId);
+  const handleConversationClick = (conversation) => {
+    setActiveConversationId(conversation._id);
+    setActiveConversationTitle(conversation.title);
   };
 
   return !isLoggedIn ? (
     <div>You aren't logged in</div>
   ) : (
-    <Container>
-      <InnerContainer>
-        {activeConversation === '' ? (
-          <UnselectedConversation>Select a conversation</UnselectedConversation>
-        ) : (
-          <>
-            <MessageCards messageList={messageList} />
-            <MessageBar activeConversation={activeConversation} />
-          </>
-        )}
-      </InnerContainer>
+    <>
+      <Header activeConversation={activeConversationTitle} />
+      <Container>
+        <InnerContainer>
+          {activeConversationId === '' ? (
+            <UnselectedConversation>Select a conversation</UnselectedConversation>
+          ) : (
+            <>
+              <MessageCards messageList={messageList} />
+              <MessageBar activeConversation={activeConversationId} />
+            </>
+          )}
+        </InnerContainer>
 
-      <Conversations setActiveConversation={handleConversationClick} />
-    </Container>
+        <Conversations setActiveConversation={handleConversationClick} />
+      </Container>
+    </>
   );
 };
 
