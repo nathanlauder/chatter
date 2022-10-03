@@ -35,9 +35,7 @@ const Login = () => {
     validateInput();
     if (errors.length === 0) {
       const data = { username, password };
-      console.log();
       if (await postLogin(data)) {
-        console.log('would be redirecting');
         navigate('/');
       }
     }

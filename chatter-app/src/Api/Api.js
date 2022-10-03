@@ -44,7 +44,6 @@ const postLogin = async (payload) => {
     // eslint-disable-next-line no-unused-vars
     const request = await axios.post(loginEndpoint, payload);
     const { _id, username } = request.data;
-    console.log(request.data);
     ls.set('username', username);
     ls.set('id', _id);
     return Status.SUCCESS;
