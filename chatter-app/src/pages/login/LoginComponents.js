@@ -38,6 +38,7 @@ const LoginInput = styled.input`
   padding: 0.3rem;
   margin-bottom: 1rem;
   letter-spacing: 1.5px;
+  width: 100%;
 
   &:focus {
     outline: none;
@@ -46,6 +47,24 @@ const LoginInput = styled.input`
   &::placeholder {
     font-weight: 700;
     color: var(--grey);
+  }
+`;
+
+const UsernameLoginContainer = styled.div`width: 95%;`;
+
+const PasswordLoginContainer = styled.div`
+  position: relative;
+  width: 95%;
+
+  svg {
+    position: absolute;
+    cursor: pointer;
+    background-color: var(--charcoal);
+    color: var(--charcoal);
+    top: 1px;
+    right: -10px;
+    font-size: 25px;
+    padding: 3.5px;
   }
 `;
 
@@ -59,5 +78,7 @@ export {
   LoginTitle,
   LoginLabel,
   LoginInput,
+  UsernameLoginContainer,
+  PasswordLoginContainer,
   SignupLinkContainer
 };

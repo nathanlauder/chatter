@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { postLogin } from '../../Api/Api';
 import Link from '../../components/Link';
 import ButtonLink from '../../components/ButtonLink';
@@ -9,16 +10,34 @@ import {
   LoginTitle,
   LoginLabel,
   LoginInput,
+  UsernameLoginContainer,
+  PasswordLoginContainer,
   SignupLinkContainer
 } from './LoginComponents';
 import colors from '../../util/colors';
-// import redirect from '../../util/redirect';
 
 const Login = () => {
+  const VISIBILITY = {
+    HIDDEN: false,
+    VISIBLE: true
+  };
+
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(VISIBILITY.HIDDEN);
+  const [passwordType, setPasswordType] = useState('password');
+
+  const togglePasswordVisibility = () => {
+    if (passwordVisibility === VISIBILITY.HIDDEN) {
+      setPasswordVisibility(VISIBILITY.VISIBLE);
+      setPasswordType('text');
+    } else {
+      setPasswordVisibility(VISIBILITY.HIDDEN);
+      setPasswordType('password');
+    }
+  };
 
   const validateInput = () => {
     const errorList = [];
@@ -48,24 +67,33 @@ const Login = () => {
         <LoginLabel htmlFor="username">
           Username
         </LoginLabel>
-        <LoginInput
-          type="text"
-          placeholder="user1234"
-          min={5}
-          max={30}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <UsernameLoginContainer>
+          <LoginInput
+            type="text"
+            placeholder="user1234"
+            min={5}
+            max={30}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </UsernameLoginContainer>
 
         <LoginLabel htmlFor="password">
           Password
         </LoginLabel>
-        <LoginInput
-          type="password"
-          placeholder="SuperS3cureP4ssword"
-          min={10}
-          max={50}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <PasswordLoginContainer>
+          <LoginInput
+            type={passwordType}
+            placeholder="SuperS3cureP4ssword"
+            min={10}
+            max={50}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {passwordVisibility ? (
+            <AiFillEye onClick={() => togglePasswordVisibility()} />
+          ) : (
+            <AiFillEyeInvisible onClick={() => togglePasswordVisibility()} />
+          )}
+        </PasswordLoginContainer>
 
         <ButtonLink title="Sign In" href="/" onClick={() => handleLogin()}>Log In</ButtonLink>
 
