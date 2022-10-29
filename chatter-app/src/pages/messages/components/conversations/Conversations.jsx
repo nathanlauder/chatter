@@ -30,14 +30,19 @@ const Conversations = styled.div`
 
 const ConversationTitle = styled.div`
   cursor: pointer;
+  background-color: transparent;
   font-size: 1.2rem;
   font-weight: 600;
+  padding: 0.25rem;
   margin: 0 0 0.75rem 0.5rem;
   white-space: nowrap;
   max-width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
+  ${({ isActiveConversation }) => (isActiveConversation ? 'border-bottom: 4px solid var(--frost); border-radius: 3px;' : 'border-bottom: 3px solid transparent;')}
+  /* border-bottom: 2px solid pink; */
+
   ${Tooltip} {
     right: 0;
   }
@@ -47,7 +52,7 @@ const ConversationTitle = styled.div`
   }
 `;
 
-const Conversation = ({ setActiveConversation }) => {
+const Conversation = ({ activeConversation, setActiveConversation }) => {
   // eslint-disable-next-line no-unused-vars
   const [drawerOpen, setDrawer] = useState(true);
   const [conversations, setConversations] = useState([]);
@@ -69,7 +74,7 @@ const Conversation = ({ setActiveConversation }) => {
       <Conversations>
         {conversations.map((conv) => (
           <ConversationContainer key={conv._id} onClick={() => setActiveConversation(conv)}>
-            <ConversationTitle>
+            <ConversationTitle isActiveConversation={activeConversation === conv._id}>
               { conv.title }
               { titleWillOverflow(conv.title) && (
                 <Tooltip>{ conv.title }</Tooltip>
@@ -83,7 +88,8 @@ const Conversation = ({ setActiveConversation }) => {
 };
 
 Conversation.propTypes = {
-  setActiveConversation: PropTypes.func.isRequired
+  setActiveConversation: PropTypes.func.isRequired,
+  activeConversation: PropTypes.string.isRequired
 };
 
 export default Conversation;

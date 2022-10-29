@@ -78,7 +78,10 @@ const Messages = () => {
           )}
         </InnerContainer>
 
-        <Conversations setActiveConversation={handleConversationClick} />
+        <Conversations
+          activeConversation={activeConversationId}
+          setActiveConversation={handleConversationClick}
+        />
       </Container>
     </>
   );
