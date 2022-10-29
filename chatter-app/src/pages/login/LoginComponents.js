@@ -50,20 +50,26 @@ const LoginInput = styled.input`
   }
 `;
 
-const UsernameLoginContainer = styled.div`width: 95%;`;
+const UsernameLoginContainer = styled.div`
+  width: 95%;
+  background-color: transparent;
+`;
 
 const PasswordLoginContainer = styled.div`
   position: relative;
   width: 95%;
-
+  background-color: transparent;
+  
+  // toggle password viz
   svg {
     position: absolute;
     cursor: pointer;
     background-color: var(--charcoal);
     color: var(--charcoal);
+    border-radius: 0 5px 5px 0;
     top: 1px;
-    right: -10px;
-    font-size: 25px;
+    right: -12px;
+    font-size: 26px;
     padding: 3.5px;
   }
 `;
