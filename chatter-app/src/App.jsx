@@ -1,14 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Messages from './pages/messages/Messages';
+import Settings from './pages/settings/Settings';
 // import { postLogout } from './Api/Api';
-import { ls } from './Api/storage';
+// import { ls } from './Api/storage';
 
-const App = () => {
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route exact path="/" element={<Messages />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/settings" element={<Settings />} />
+    </Routes>
+  </BrowserRouter>
+);
+
+/*
   useEffect(() => {
     // let tabCount = ls.get('tabs');
     // if (Number.isNaN(tabCount)) ls.set('tabs', 0);
@@ -40,14 +52,5 @@ const App = () => {
     };
   }, []);
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Messages />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+  */
 export default App;
