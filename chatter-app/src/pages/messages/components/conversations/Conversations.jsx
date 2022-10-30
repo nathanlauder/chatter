@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const ConversationContainer = styled.button`
   border: none;
+  background-color: var(--black);
 `;
 
 const Title = styled.h3`
@@ -30,7 +31,6 @@ const Conversations = styled.div`
 
 const ConversationTitle = styled.div`
   cursor: pointer;
-  background-color: transparent;
   font-size: 1.2rem;
   font-weight: 600;
   padding: 0.25rem;
