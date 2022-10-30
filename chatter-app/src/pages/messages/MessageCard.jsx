@@ -17,19 +17,20 @@ const TimeStamp = styled.div`
 const Card = styled.div`
   margin: 0.5rem 0;
   padding: 0.5rem;
+  height: max-content;
   width: max-content;
   max-width: 55%;
   border-radius: 5px;
-  ${({ myMessage }) => (myMessage
-    ? 'margin-left: auto; background-color: var(--frost);'
+  ${({ myMessage, color }) => (myMessage
+    ? `margin-left: auto; background-color: ${color};`
     : 'background-color: var(--grey);'
   )}
 `;
 
-const MessageCard = ({ message }) => {
+const MessageCard = ({ message, color = 'var(--frost)' }) => {
   const isMyMessage = message.sender === ls.get('id');
   return (
-    <Card myMessage={isMyMessage}>
+    <Card myMessage={isMyMessage} color={color}>
       <MessageText>{message.text}</MessageText>
       <TimeStamp myMessage={isMyMessage}>{new Date(message.timeStamp).toLocaleString()}</TimeStamp>
     </Card>
@@ -38,7 +39,8 @@ const MessageCard = ({ message }) => {
 
 MessageCard.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  message: PropTypes.object.isRequired
+  message: PropTypes.object.isRequired,
+  color: PropTypes.string
 };
 
 export default MessageCard;
