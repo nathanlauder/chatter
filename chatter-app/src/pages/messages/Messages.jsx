@@ -31,7 +31,6 @@ const UnselectedConversation = styled.div`
 const Messages = () => {
   const [isLoggedIn, setLoginStatus] = useState(false);
   const [activeConversationId, setActiveConversationId] = useState('');
-  const [activeConversationTitle, setActiveConversationTitle] = useState('');
   const [messageList, setMessages] = useState([]);
 
   useEffect(() => {
@@ -58,14 +57,13 @@ const Messages = () => {
 
   const handleConversationClick = (conversation) => {
     setActiveConversationId(conversation._id);
-    setActiveConversationTitle(conversation.title);
   };
 
   return !isLoggedIn ? (
     <div>You aren't logged in</div>
   ) : (
     <>
-      <Header activeConversation={activeConversationTitle} />
+      <Header />
       <Container>
         <InnerContainer>
           {activeConversationId === '' ? (

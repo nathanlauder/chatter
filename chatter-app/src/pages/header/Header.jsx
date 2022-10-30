@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-import { ProfilePicture, Title } from './HeaderComponents';
+import { ProfilePicture } from './HeaderComponents';
 
 const Container = styled.div`
   height: 75px;
@@ -21,21 +20,11 @@ const Logo = styled.h1`
   font-size: 2.75rem;
 `;
 
-const Header = ({ activeConversation }) => {
-  // eslint-disable-next-line no-unused-vars
-  const conversationIsEmpty = () => (activeConversation !== '' ? activeConversation : '');
-
-  return (
-    <Container>
-      {/* <Title>{activeConversation}</Title> */}
-      <Logo>Chatter</Logo>
-      <ProfilePicture />
-    </Container>
-  );
-};
-
-Header.propTypes = {
-  activeConversation: PropTypes.string.isRequired
-};
+const Header = () => (
+  <Container>
+    <Logo>Chatter</Logo>
+    <ProfilePicture />
+  </Container>
+);
 
 export default Header;

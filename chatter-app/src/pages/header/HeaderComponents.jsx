@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from '../../components/Link';
 
 const ImgContainer = styled.div`
   position: absolute;
@@ -13,20 +14,13 @@ const Img = styled.img`
   height: 50px;
 `;
 
-const Title = styled.div`
-  position: absolute;
-  top: calc((75px - 1.4rem) / 2);
-  left: calc(50% - 265px);
-  /* TODO - fix this  to account for different lengths */
-  /* transform: translate(-50%); */
-  color: var(--white);
-  font-size: 1.4rem;
-`;
-
 const ProfilePicture = () => (
   <ImgContainer id="ImgContainer">
-    <Img src="https://i.imgur.com/6VBx3io.png" alt="profile" />
+    <Link href="/settings">
+      <Img src="https://i.imgur.com/6VBx3io.png" alt="profile" />
+    </Link>
   </ImgContainer>
 );
 
-export { ProfilePicture, Title };
+// eslint-disable-next-line import/prefer-default-export
+export { ProfilePicture };
