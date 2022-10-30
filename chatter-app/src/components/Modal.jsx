@@ -14,6 +14,7 @@ const ModalContainer = styled.div`
 `;
 
 const Content = styled.div`
+  background-color: var(--charcoal);
   border: 2px solid var(--grey);
   border-radius: 4px;
   position: fixed;
@@ -29,17 +30,18 @@ const ModalHeader = styled.div`
   text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
+  letter-spacing: 1.5px;
 `;
 
 const ModalBody = styled.div`
   text-align: center;
-  margin: 0 auto;
+  margin: 0 2rem;
+  line-height: 1.5;
 `;
 
 const ModalFooter = styled.div`
   display: flex;
-  /* border-top: 2px solid var(--grey); */
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
   margin-top: 1rem;
   justify-content: center;
   align-items: center;
@@ -49,8 +51,9 @@ const ModalFooter = styled.div`
 
 const ModalButton = styled.button`
   padding: 0.5rem;
+  border: 2px solid var(--grey);
   border-radius: 4px;
-  ${({ color }) => color && `background-color: ${color}`}
+  ${({ color }) => (color ? `background-color: ${color};  border: none;` : 'background-color: var(--charcoal)')}
 `;
 
 const Modal = ({
