@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { RgbaColorPicker } from 'react-colorful';
 import Header from '../header/Header';
 import Modal from '../../components/Modal';
+import MessageCard from '../messages/MessageCard';
+import { ls } from '../../Api/storage';
 
 const Container = styled.div`
   width: 70vw;
   margin: 0 auto;
+
+  .colorPickerWrapper {
+    display: flex; 
+    align-items: center;
+  }
+
+  .colorPicker {
+    margin-top: 1rem;
+    width: 250px;
+  }
+
+  .colorPickerWrapper .react-colorful__pointer {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+  }
+
+  .colorPickerWrapper .react-colorful__hue-pointer,
+  .colorPickerWrapper .react-colorful__alpha-pointer {
+    height: 25px;
+  }
+`;
+
+const SettingsSection = styled.section`
+  margin: 2rem 0;
 `;
 
 const SectionTitle = styled.h2`
@@ -27,10 +55,15 @@ const LabelTitle = styled.div`
 `;
 
 const InputField = styled.input`
+  background-color: transparent;
   border: 1px solid var(--grey);
   border-radius: 4px;
   padding: 5px;
   font-size: 1rem;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Test = styled.div`
@@ -40,6 +73,7 @@ const Test = styled.div`
 
 const ChangeUsernameButton = styled.button`
   border: 1px solid var(--grey);
+  background-color: var(--charcoal);
   font-size: 1rem;
   padding: 5px;
   margin-top: 0.5rem;
@@ -58,10 +92,26 @@ const DeleteAccountButton = styled.button`
 const Settings = () => {
   // eslint-disable-next-line no-unused-vars
   const [username, setUsername] = useState('');
+  const [modalIsVisible, showConfirmationModal] = useState(false);
+  // frost by default 'rgba(22, 96, 160, 1)'
+  // eslint-disable-next-line object-curly-newline
+  const [chatColor, setChatColor] = useState({ r: 22, g: 96, b: 160, a: 1 });
+  const [color, setColor] = useState('rgba(22, 96, 160, 1)');
 
   const updateUsername = () => {
     console.log('Updating username');
   };
+
+  const formatChatColor = () => {
+    const red = chatColor.r;
+    const green = chatColor.g;
+    const blue = chatColor.b;
+    const alpha = chatColor.a;
+    const formattedColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+    setColor(formattedColor);
+  };
+
+  useEffect(() => { formatChatColor(); }, [chatColor]);
 
   return (
     <>
@@ -80,13 +130,22 @@ const Settings = () => {
           ******************
           */
         }
-        <SectionTitle>Appearance Settings</SectionTitle>
+        <SettingsSection>
+          <SectionTitle>Appearance Settings</SectionTitle>
 
-        <Modal />
-        {
-          // Profile Picture
-          // Message Color
-        }
+          {/* Profile Picture */}
+
+          {/* Message Color */}
+
+          <InputLabel htmlFor="custom-chat-color">Chat Message Color</InputLabel>
+          <div className="colorPickerWrapper">
+            <RgbaColorPicker className="colorPicker" color={chatColor} onChange={setChatColor} />
+            <MessageCard
+              message={{ sender: ls.get('id'), text: 'This is what your new messages would look like!', timeStamp: Date.now() }}
+              color={color}
+            />
+          </div>
+        </SettingsSection>
 
         {
           /*
@@ -95,33 +154,49 @@ const Settings = () => {
           ******************
           */
         }
+        <SettingsSection>
+          <SectionTitle> Account Settings</SectionTitle>
 
-        <SectionTitle>
-          Account Settings
-        </SectionTitle>
+          {/* Change Username */}
+          <InputLabel htmlFor="change-username">
+            <LabelTitle>Change username:</LabelTitle>
+            <InputField
+              type="text"
+              size="30"
+              min="5"
+              max="30"
+              placeholder="myNewUsername_01"
+            />
+          </InputLabel>
+          <div>
+            <ChangeUsernameButton type="button" onClick={updateUsername}>
+              Update
+            </ChangeUsernameButton>
 
-        {/* Change Username */}
-        <InputLabel htmlFor="change-username">
-          <LabelTitle>Change username:</LabelTitle>
-          <InputField
-            type="text"
-            size="30"
-            min="5"
-            max="30"
-          />
-        </InputLabel>
-        <div>
-          <ChangeUsernameButton type="button" onClick={updateUsername}>
-            Update
-          </ChangeUsernameButton>
-        </div>
+          </div>
 
-        {/* Delete account */}
-        <DeleteAccountButton type="button">
-          Delete Account
-        </DeleteAccountButton>
+          {/* Delete account */}
+          <DeleteAccountButton
+            type="button"
+            onClick={() => showConfirmationModal(true)}
+          >
+            Delete Account
+          </DeleteAccountButton>
+
+          {modalIsVisible && (
+            <Modal
+              title="Delete Account?"
+              confirmationMessage="Are you sure you want to delete your account?  This action is unreversible and will permanantly
+                                  remove your account from Chatter."
+              closeModalFunc={() => showConfirmationModal(false)}
+              confirmFunc={() => console.log('Deleting account')}
+            />
+
+          )}
+        </SettingsSection>
       </Container>
     </>
   );
 };
+
 export default Settings;
