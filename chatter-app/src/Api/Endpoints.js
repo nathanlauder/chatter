@@ -1,6 +1,8 @@
 const base = 'http://localhost:8080/api/v1';
 
 module.exports = {
+  // host
+  host: 'http://localhost:8080',
   // user endpoints
   signup: `${base}/user/signup`,
   login: `${base}/user/login`,
