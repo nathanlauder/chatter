@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
+import { v4 as uuidv4 } from 'uuid';
 import MessageCard from './MessageCard';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(94vh - 50px);
+  height: calc(100vh - 185px);
   padding: 1.5rem;
   overflow-y: scroll;
 `;
@@ -20,14 +20,16 @@ const NoMessages = styled.div`
   background-color: transparent;
 `;
 
-const MessageCards = ({ messageList }) => (messageList.length > 0 ? (
+const MessageCards = ({ messageList, messageRef }) => (messageList.length > 0 ? (
   <Container>
     {messageList.map((message) => (
       <MessageCard
-        key={message._id}
+        key={uuidv4()}
         message={message}
+        ref={messageRef}
       />
     ))}
+    <div ref={messageRef} />
   </Container>
 ) : (
   <NoMessages>
@@ -37,7 +39,9 @@ const MessageCards = ({ messageList }) => (messageList.length > 0 ? (
 
 MessageCards.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  messageList: PropTypes.arrayOf(PropTypes.object).isRequired
+  messageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  messageRef: PropTypes.object.isRequired
 };
 
 export default MessageCards;

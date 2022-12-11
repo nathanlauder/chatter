@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 300px;
   min-width: 300px;
   border-left: 2px solid var(--grey);
-  height: calc(99.5vh - 75px);
+  height: calc(100vh - 75px);
 `;
 
 const ConversationContainer = styled.button`
@@ -41,7 +41,6 @@ const ConversationTitle = styled.div`
   text-overflow: ellipsis;
 
   ${({ isActiveConversation }) => (isActiveConversation ? 'border-bottom: 4px solid var(--frost); border-radius: 3px;' : 'border-bottom: 3px solid transparent;')}
-  /* border-bottom: 2px solid pink; */
 
   ${Tooltip} {
     right: 0;

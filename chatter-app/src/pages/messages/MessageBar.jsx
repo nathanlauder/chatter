@@ -9,8 +9,8 @@ import { sendMessage as sendMessageEndpoint } from '../../Api/Endpoints';
 const Wrapper = styled.div`
   background-color: var(--black);
   display: flex;
-  width: calc(100% - 300px);
-  position: absolute;
+  width: calc(100% - 302px);
+  position: fixed;
   bottom: 0;
   padding: 1rem 0;
   height: 50px;
@@ -49,8 +49,8 @@ const SendButton = styled.button`
     margin-top: 5px;
   }
 `;
-
-const MessageBar = ({ activeConversation }) => {
+// setSingleMessage  setMessageList,
+const MessageBar = ({ activeConversation, setMessageList, socket }) => {
   const [message, setMessage] = useState('');
 
   const handleSendMessage = async () => {
@@ -59,9 +59,23 @@ const MessageBar = ({ activeConversation }) => {
       senderId: ls.get('id'),
       text: message
     };
+    const socketData = {
+      conversation: activeConversation,
+      sender: ls.get('id'),
+      text: message,
+      timeStamp: new Date(Date.now()).toLocaleString()
+    };
+
     if (message !== '') {
-      await post(sendMessageEndpoint, payload);
+      const t1 = performance.now();
+      socket.current.emit('send-msg', socketData);
+      const t2 = performance.now();
+      console.log(`Emitting socket event took ${(t2 - t1) / 1000}s`);
+      setMessageList((previousMessages) => [...previousMessages, socketData]);
       setMessage('');
+      await post(sendMessageEndpoint, payload);
+      const t3 = performance.now();
+      console.log(`Database comms took ${(t3 - t2) / 1000}s`);
     }
     // TODO: handle errors for sending messages
   };
@@ -85,7 +99,10 @@ const MessageBar = ({ activeConversation }) => {
 };
 
 MessageBar.propTypes = {
-  activeConversation: PropTypes.string.isRequired
+  activeConversation: PropTypes.string.isRequired,
+  setMessageList: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  socket: PropTypes.object.isRequired
 };
 
 export default MessageBar;
