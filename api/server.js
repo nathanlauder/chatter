@@ -53,7 +53,6 @@ io.on('connection', (sock) => {
 
   sock.on('connect-chat', (chatId) => {
     console.log(`Connecting ${chatId} chat to sockets`);
-    // if (!activeChats.get(chatId))
     activeChats.set(chatId, sock.id);
     console.log(`ID of socket for connected chat: ${activeChats.get(chatId)}`);
     return activeChats.get(chatId);
